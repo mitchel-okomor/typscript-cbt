@@ -1,12 +1,9 @@
 'use strict';
-import userModel from './user';
-import answerModel from './answer';
-import questionModel from './question';
-import categoryModel from './category'
+
 import { Sequelize, DataTypes, Model } from "sequelize";
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -77,7 +74,7 @@ const syncModels = async (fresh = false) => {
 fs.readdirSync(__dirname)
   .filter((file:any) => {
     return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.ts'
     );
   })
   .forEach((file:any) => {
@@ -96,10 +93,7 @@ Object.keys(db).forEach((modelName) => {
 syncModels(true);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.Users = userModel(sequelize, Sequelize);
-db.Answers = answerModel(sequelize, Sequelize);
-db.question = questionModel(sequelize, Sequelize);
-db.category = categoryModel(sequelize, Sequelize);
+
 
 
 export default db;

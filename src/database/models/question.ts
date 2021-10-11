@@ -2,7 +2,7 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 
 
- const questionModel = (sequelize:Sequelize, DataTypes:any) => {
+ module.exports = (sequelize:Sequelize, DataTypes:any) => {
   class question extends Model {
     /**
      * Helper method for defining associations.
@@ -11,7 +11,7 @@ import { Sequelize, DataTypes, Model } from "sequelize";
      */
     static associate(models:any) {
       // define association here
-	  question.belongsTo(models.Categories, { foreignKey: 'categoryId', as: 'category' });
+	  question.belongsTo(models.category, { foreignKey: 'categoryId', as: 'category' });
 
     }
   };
@@ -24,4 +24,3 @@ import { Sequelize, DataTypes, Model } from "sequelize";
   return question;
 };
 
-export default questionModel;

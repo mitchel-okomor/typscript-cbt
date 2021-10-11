@@ -2,7 +2,7 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 
 
- const categoryModel = (sequelize:Sequelize, DataTypes:any) => {
+module.exports = (sequelize:Sequelize, DataTypes:any) => {
   class category extends Model {
     /**
      * Helper method for defining associations.
@@ -22,4 +22,3 @@ import { Sequelize, DataTypes, Model } from "sequelize";
   return category;
 };
 
-export default categoryModel;
