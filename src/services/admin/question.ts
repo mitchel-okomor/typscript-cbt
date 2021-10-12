@@ -21,12 +21,12 @@ const Question = db.Questions;
    * @returns User object
    */
   export const createQuestion = async (data:any) => {
-	const { title, description, } = data;
+	const { title, categoryId, } = data;
   
 	try {
 		const response = await Question.create({
 			title: title?.trim(),
-			description: description?.trim(),
+			category: categoryId,
 		  });
 		  const createdCategory = response.dataValues
 	  
@@ -58,12 +58,12 @@ const Question = db.Questions;
    * @returns
    */
   export const updateQuestion = async (id:string, data:any) => {
-	const { title, description } = data;
+	const { title, categoryId } = data;
 	try {
 	  const newIdea = await Question.update(
 		{
 		  title,
-		  description
+		  categoryId
 		},
 		{
 		  where: {
