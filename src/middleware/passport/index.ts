@@ -6,14 +6,14 @@ const db = require('../../database/models');
 
 
 
-const  options  =()=> {
- return{ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken('token'),
+const options = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.ACCESS_TOKEN_SECRET,
- }
+  algorithms: ['RS256'],
 };
 
 const User = db.Users;
-const strategy = new JwtStrategy(options(), async (payload: any, done:Function) => {
+const strategy = new JwtStrategy(options, async (payload: any, done:Function) => {
 	console.log(payload)
 
   try {
