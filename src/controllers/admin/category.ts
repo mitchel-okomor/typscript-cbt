@@ -36,9 +36,9 @@ categoryController.getCategory = async function (req:Request, res:Response, next
 
 categoryController.create = async function (req:Request, res:Response, next:any) {
 
-  const { name, description } = req.body;
+  const { title, description } = req.body;
 
-  const reqData = { name, description };
+  const reqData = { title, description };
 
   try {
     const resp:any = await createCategory(reqData);
@@ -55,9 +55,9 @@ categoryController.create = async function (req:Request, res:Response, next:any)
 // Registration Route
 categoryController.update = async function (req:Request, res:Response, next:any) {
   const id = req.params.id;
-  const { name, description } = req.body;
+  const { title, description } = req.body;
 
-  const reqData = { name, description };
+  const reqData = { title, description };
 
   try {
     const response:any = await updateCategory(id, reqData);
