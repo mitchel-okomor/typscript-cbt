@@ -7,62 +7,12 @@ import {
   HTTP_OK,
   HTTP_SERVER_ERROR
 } from '../../helpers/httpCodes';
-import { createAccessToken, createRefreshToken } from '../../utils/generateToken';
 
 
-const User = db.Users;
+const Question = db.Questions;
 
 
-/**
- * Authenticates User with valid credentials
- * @param {string} userEmail
- * @param {string} password
- * @returns User's login information with a signed token
- */
- export const loginUser = async (userEmail: string, password:string) => {
-	try {
-	  const user = await User.findOne({
-		where: { email: userEmail }
-	  });
-	  if (user === null) {
-		const error = new Error('Incorrect Email or Password');
-		return responseInfo(HTTP_BAD_REQUEST, 'error', null, error.message);
-	  }
-  
-	const isMatch = await bcrypt.compareSync(password, user.password)
-	    if (!isMatch) {
-			const error = new Error('Incorrect Email or Password');
-			return responseInfo(HTTP_BAD_REQUEST, 'error', null, error.message);
-		  }else{
-			const loggedInUser = user.dataValues;
-  
-			const { id, name, email, role, gender, phone } = loggedInUser;
-			const access_token = createAccessToken(loggedInUser);
-			const refresh_token = createRefreshToken(loggedInUser);
-		
-			const newUser = {
-			  user: {
-				id,
-				name,
-				email,
-				role,
-				gender,
-				phone
-			  },
-			  access_token,
-			  refresh_token
-			};
-			return responseInfo(HTTP_OK, 'success', newUser, 'LoggedIn successfully');
-		  }
-	
-	
 
-	} catch (err:any) {
-	  console.log(err);
-	  // eslint-disable-next-line no-undef
-	  return responseInfo(HTTP_SERVER_ERROR, 'error', null, err.message);
-	}
-  };
   
   /**
    * Creates a user in the database and returns the user's basic detials.
@@ -70,40 +20,21 @@ const User = db.Users;
    * @param {object} data
    * @returns User object
    */
-  export const createUser = async (data:any) => {
-	const { name, email, password } = data;
+  export const createQuestion = async (data:any) => {
+	const { title, description, } = data;
   
 	try {
-	  const user = await User.findOne({
-		where: { email }
-	  });
-  
-	  if (user !== null) {
-		return responseInfo(
-		  HTTP_BAD_REQUEST,
-		  'error',
-		  null,
-		  'User already exists!'
-		);
-	  }
- const hashpassword =  bcrypt.hashSync(password)
-		const response = await User.create({
-			name: name?.trim(),
-			email: email?.trim(),
-			password: hashpassword
+		const response = await Question.create({
+			title: title?.trim(),
+			description: description?.trim(),
 		  });
-		  const createdUser = response.dataValues
-		  const newUser = {
-			id: createdUser?.id,
-			name: createdUser?.name,
-			email: createdUser?.email
-		  };
+		  const createdCategory = response.dataValues
 	  
 		  return responseInfo(
 			HTTP_CREATED,
 			'success',
-			newUser,
-			'Registration Successfull! '
+			createdCategory,
+			'Category created Successfull! '
 		  );
 	
 
@@ -126,13 +57,13 @@ const User = db.Users;
    * @param {Object} data
    * @returns
    */
-  export const updateUser = async (id:string, data:any) => {
-	const { name, email } = data;
+  export const updateQuestion = async (id:string, data:any) => {
+	const { title, description } = data;
 	try {
-	  const newIdea = await User.update(
+	  const newIdea = await Question.update(
 		{
-		  name,
-		  email
+		  title,
+		  description
 		},
 		{
 		  where: {
@@ -144,7 +75,7 @@ const User = db.Users;
 		HTTP_CREATED,
 		'success',
 		newIdea,
-		'User updated successful'
+		'Category updated successful'
 	  );
 	} catch (err) {
 	  if (err) {
@@ -159,26 +90,41 @@ const User = db.Users;
 	}
   };
   
-  export const fetchUser = async (userEmail: string) => {
+  export const fetchQuestion = async (categoryId:string) => {
 	try {
-	  const user = await User.findOne({
-		where: { email: userEmail }
+	  const category:any = await Question.findOne({
+		where: { id: categoryId }
 	  });
-			const loggedInUser = user.dataValues;
-  
-			const { id, name, email, role, gender, phone } = loggedInUser;
-		
-		
-			const userData ={ 
-				id,
-				name,
-				email,
-				role,
-				gender,
-				phone
-			 
-			};
-			return responseInfo(HTTP_OK, 'success', userData, '');
+	
+			return responseInfo(HTTP_OK, 'success', category.dataValues, '');
+
+	} catch (err:any) {
+	  console.log(err);
+	  // eslint-disable-next-line no-undef
+	  return responseInfo(HTTP_SERVER_ERROR, 'error', null, err.message);
+	}
+  };
+
+  export const fetchQuestions = async () => {
+	try {
+	  const Categories:any = await Question.findAll();
+	
+			return responseInfo(HTTP_OK, 'success', Categories.dataValues, '');
+
+	} catch (err:any) {
+	  console.log(err);
+	  // eslint-disable-next-line no-undef
+	  return responseInfo(HTTP_SERVER_ERROR, 'error', null, err.message);
+	}
+  };
+
+  export const deleteQuestion = async (questionId:string) => {
+	try {
+	  const question:any = await Question.remove({
+		where: { id: questionId }
+	  });
+	
+			return responseInfo(HTTP_OK, 'success', question.dataValues, '');
 
 	} catch (err:any) {
 	  console.log(err);
