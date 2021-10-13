@@ -7,6 +7,7 @@ import {
   HTTP_OK,
   HTTP_SERVER_ERROR
 } from '../../helpers/httpCodes';
+import {QuestionType, RespType} from '../../helpers/interfaces';
 
 
 const Question = db.Questions;
@@ -20,8 +21,8 @@ const Question = db.Questions;
    * @param {object} data
    * @returns User object
    */
-  export const createQuestion = async (data:any) => {
-	const { title, categoryId, } = data;
+  export const createQuestion = async (data:QuestionType):Promise<RespType | any> => {
+	const { title, categoryId, options } = data;
   
 	try {
 		const response = await Question.create({
@@ -57,8 +58,8 @@ const Question = db.Questions;
    * @param {Object} data
    * @returns
    */
-  export const updateQuestion = async (id:string, data:any) => {
-	const { title, categoryId } = data;
+  export const updateQuestion = async (id:string, data:any):Promise<RespType | any>  => {
+	const { title, categoryId, options } = data;
 	try {
 	  const newIdea = await Question.update(
 		{
@@ -90,7 +91,7 @@ const Question = db.Questions;
 	}
   };
   
-  export const fetchQuestion = async (categoryId:string) => {
+  export const fetchQuestion = async (categoryId:string):Promise<RespType>  => {
 	try {
 	  const category:any = await Question.findOne({
 		where: { id: categoryId }

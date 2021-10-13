@@ -3,8 +3,7 @@ import {Request, Response} from 'express'
 import { createUser, loginUser, updateUser, fetchUser } from '../../services/auth';
 import db from '../../database/models';
 import { errorObject, responseObject } from '../../helpers/common';
-import { RespType} from '../../helpers/interfaces';
-import {UserType} from './types'
+import { RespType, UserType, UserUpdateType} from '../../helpers/interfaces';
 
 const User = db.User;
 
@@ -66,12 +65,12 @@ AuthController.registerUser = async function (req:Request, res:Response, next:an
 // Registration Route
 AuthController.updateUser = async function (req:Request, res:Response, next:any) {
   const id = req.params.id;
-  const { name, email } = req.body;
+  const { firstname, lastname, email }:UserUpdateType = req.body;
 
-  const reqData = { name, email };
+  const reqData = { firstname, lastname, email };
 
   try {
-    const response:any = await updateUser(id, reqData);
+    const response:RespType = await updateUser(id, reqData);
     const { rCode, rState, rData, rMessage } = response;
 
     return responseObject(res, rCode, rState, rData, rMessage);

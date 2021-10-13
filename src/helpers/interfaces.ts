@@ -1,3 +1,7 @@
+type Options ={
+	title: string,
+	isCorrect: boolean
+}
 interface RespType{
 	rCode:number, 
 	rState:string, 
@@ -5,4 +9,22 @@ interface RespType{
 	rMessage:string
 }
 
-export {RespType}
+interface UserType{
+	firstname:string,
+	lastname:string,
+	email:string,
+	password:string
+	}
+
+	interface UserUpdateType{
+		firstname:string,
+		lastname:string,
+		email:string,
+		}
+	interface QuestionType{
+		title:string,
+		categoryId: String | number,
+		options:Array<Options>
+	}
+
+export {RespType, UserType, UserUpdateType, QuestionType}

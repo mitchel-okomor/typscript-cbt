@@ -2,6 +2,7 @@ import {Request, Response} from 'express'
 
 import { createQuestion, updateQuestion, fetchQuestions, fetchQuestion, deleteQuestion } from '../../services/admin/question';
 import { errorObject, responseObject } from '../../helpers/common';
+import {RespType, QuestionType} from '../../helpers/interfaces';
 
 
 const categoryController :any= {}
@@ -11,7 +12,7 @@ const categoryController :any= {}
 categoryController.getQuestion = async function (req:Request, res:Response, next:any) {
 	const { id }:any = req.params;
 	try {
-	  const response:any = await fetchQuestion(id);
+	  const response:RespType = await fetchQuestion(id);
 	  const { rCode, rState, rData, rMessage } = response;
 	  return responseObject(res, rCode, rState, rData, rMessage);
 	} catch (err:any) {
@@ -23,7 +24,7 @@ categoryController.getQuestion = async function (req:Request, res:Response, next
   };
   categoryController.getAllQuestions = async function (req:Request, res:Response, next:any) {
 	try {
-	  const response:any = await fetchQuestions();
+	  const response:RespType = await fetchQuestions();
 	  const { rCode, rState, rData, rMessage } = response;
 	  return responseObject(res, rCode, rState, rData, rMessage);
 	} catch (err:any) {
@@ -36,12 +37,12 @@ categoryController.getQuestion = async function (req:Request, res:Response, next
 
 categoryController.create = async function (req:Request, res:Response, next:any) {
 
-  const { name, description } = req.body;
+  const { title, categoryId, options }:QuestionType = req.body;
 
-  const reqData = { name, description };
+  const reqData = { title, categoryId, options };
 
   try {
-    const resp:any = await createQuestion(reqData);
+    const resp:RespType = await createQuestion(reqData);
     const { rCode, rState, rData, rMessage } = resp;
 
     return responseObject(res, rCode, rState, rData, rMessage);
@@ -55,12 +56,12 @@ categoryController.create = async function (req:Request, res:Response, next:any)
 // Registration Route
 categoryController.update = async function (req:Request, res:Response, next:any) {
   const id = req.params.id;
-  const { name, description } = req.body;
+  const { title, categoryId, options }:QuestionType = req.body;
 
-  const reqData = { name, description };
+  const reqData = { title, categoryId, options };
 
   try {
-    const response:any = await updateQuestion(id, reqData);
+    const response:RespType = await updateQuestion(id, reqData);
     const { rCode, rState, rData, rMessage } = response;
 
     return responseObject(res, rCode, rState, rData, rMessage);
@@ -76,7 +77,7 @@ categoryController.delete = async function (req:Request, res:Response, next:any)
   
   
 	try {
-	  const response:any = await deleteQuestion(id);
+	  const response:RespType = await deleteQuestion(id);
 	  const { rCode, rState, rData, rMessage } = response;
   
 	  return responseObject(res, rCode, rState, rData, rMessage);

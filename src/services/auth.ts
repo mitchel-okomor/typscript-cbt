@@ -8,7 +8,7 @@ import {
   HTTP_SERVER_ERROR
 } from '../helpers/httpCodes';
 import { createAccessToken, createRefreshToken } from '../utils/generateToken';
-import {RespType} from '../helpers/interfaces';
+import {RespType, UserType} from '../helpers/interfaces';
 
 
 const User = db.user;
@@ -71,8 +71,8 @@ const User = db.user;
    * @param {object} data
    * @returns User object
    */
-  export const createUser = async (data:any):Promise<RespType | any> => {
-	const { name, email, password } = data;
+  export const createUser = async (data:UserType):Promise<RespType | any> => {
+	const { firstname, lastname, email, password } = data;
 	 try {
 	  const user = await User.findOne({
 		where: { email }
@@ -88,7 +88,8 @@ const User = db.user;
 	  }
  const hashpassword =  bcrypt.hashSync(password)
 		const response = await User.create({
-			name: name?.trim(),
+			firstname: firstname?.trim(),
+			lastname:lastname?.trim(),
 			email: email?.trim(),
 			password: hashpassword
 		  });
@@ -128,11 +129,11 @@ const User = db.user;
    * @returns
    */
   export const updateUser = async (id:string, data:any):Promise<RespType | any> => {
-	const { name, email } = data;
+	const { firstname, lastname, email } = data;
 	try {
 	  const newIdea = await User.update(
 		{
-		  name,
+			firstname, lastname,
 		  email
 		},
 		{
