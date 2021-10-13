@@ -17,6 +17,7 @@ module.exports =(sequelize:Sequelize, DataTypes:any) => {
   };
 answer.init({
     title: DataTypes.STRING,
+	isCorrect:{type:DataTypes.BOOLEAN, defaultValue:false}
 }, {
     sequelize,
     modelName: 'answer',

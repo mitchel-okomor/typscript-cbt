@@ -8,9 +8,10 @@ import {
   HTTP_SERVER_ERROR
 } from '../helpers/httpCodes';
 import { createAccessToken, createRefreshToken } from '../utils/generateToken';
+import {RespType} from '../helpers/interfaces';
 
 
-const User = db.Users;
+const User = db.user;
 
 
 /**
@@ -19,7 +20,7 @@ const User = db.Users;
  * @param {string} password
  * @returns User's login information with a signed token
  */
- export const loginUser = async (userEmail: string, password:string) => {
+ export const loginUser = async (userEmail: string, password:string):Promise<RespType> => {
 	try {
 	  const user = await User.findOne({
 		where: { email: userEmail }
@@ -70,10 +71,9 @@ const User = db.Users;
    * @param {object} data
    * @returns User object
    */
-  export const createUser = async (data:any) => {
+  export const createUser = async (data:any):Promise<RespType | any> => {
 	const { name, email, password } = data;
-  
-	try {
+	 try {
 	  const user = await User.findOne({
 		where: { email }
 	  });
@@ -118,6 +118,7 @@ const User = db.Users;
 		);
 	  }
 	}
+	
   };
   
   /**
@@ -126,7 +127,7 @@ const User = db.Users;
    * @param {Object} data
    * @returns
    */
-  export const updateUser = async (id:string, data:any) => {
+  export const updateUser = async (id:string, data:any):Promise<RespType | any> => {
 	const { name, email } = data;
 	try {
 	  const newIdea = await User.update(
@@ -159,7 +160,7 @@ const User = db.Users;
 	}
   };
   
-  export const fetchUser = async (userEmail: string) => {
+  export const fetchUser = async (userEmail: string):Promise<RespType> => {
 	try {
 	  const user = await User.findOne({
 		where: { email: userEmail }

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import db from "../../database/models";
 import {Request, Response} from 'express'
-const Users = db.Users
+const Users = db.user
 
 export default  async (req:Request, res:Response, next:Function) => {
   const token = req.headers.authorization;
