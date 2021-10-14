@@ -10,7 +10,7 @@ import {
 import {QuestionType, RespType} from '../../helpers/interfaces';
 
 
-const Question = db.Questions;
+const Question = db.question;
 
 
 
@@ -106,7 +106,7 @@ const Question = db.Questions;
 	}
   };
 
-  export const fetchQuestions = async () => {
+  export const fetchQuestions = async ():Promise<RespType> => {
 	try {
 	  const Categories:any = await Question.findAll();
 	
@@ -119,7 +119,7 @@ const Question = db.Questions;
 	}
   };
 
-  export const deleteQuestion = async (questionId:string) => {
+  export const deleteQuestion = async (questionId:string):Promise<RespType> => {
 	try {
 	  const question:any = await Question.remove({
 		where: { id: questionId }

@@ -1,22 +1,25 @@
 'use strict';
 
 import { responseInfo, camelCase2Words } from './common';
+import {Request} from 'express'
 
-export const joiValidate = (schema, req, interpretLabel = true, data) => {
+export const joiValidate = (schema:any , req:Request, interpretLabel = true, data:any) => {
   console.log('Label: ' + interpretLabel);
 
-  let values = req.body;
-  if (data) values = data;
+  let values;
+  if (data) {values = data;}else{
+	values = req.body;
+  }
 
-  const result = schema.validate(values, { abortEarly: true });
+  const result = schema.validate(values, { abortEarly: false });
   if (!result.error) return true;
   const error = result.error.details[0];
-  const msg = joiCustomErrorMsg(error, interpretLabel);
+  const msg:any = joiCustomErrorMsg(error, interpretLabel);
 
   return responseInfo(400, 'error', null, msg);
 };
 
-const joiCustomErrorMsg = (error, interpretLabel = true) => {
+const joiCustomErrorMsg = (error:any, interpretLabel = true) => {
   const context = error.context;
   const label = interpretLabel ? camelCase2Words(context.label) : context.key;
 

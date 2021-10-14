@@ -1,17 +1,18 @@
 import {Request, Response} from 'express'
-
-import { createUser, loginUser, updateUser, fetchUser } from '../../services/auth';
 import db from '../../database/models';
+import { createUser, loginUser, updateUser, fetchUser } from '../../services/auth';
 import { errorObject, responseObject } from '../../helpers/common';
 import { RespType, UserType, UserUpdateType} from '../../helpers/interfaces';
 
-const User = db.User;
+const User = db.user
+
 
 const AuthController :any= {}
 
 // Login Route
 AuthController.login = async function (req:Request, res:Response, next:any) {
   const { email, password } = req.body;
+  
   try {
     const loggedInUser:RespType = await loginUser(email, password);
     const { rCode, rState, rData, rMessage } = loggedInUser;
@@ -40,15 +41,17 @@ AuthController.getUser = async function (req:Request, res:Response, next:Functio
 
 // Registration Route
 AuthController.registerUser = async function (req:Request, res:Response, next:any) {
-//   const validate = await User.validatePostData(req);
-//   if (validate !== true) {
-//     const { rCode, rState, rMessage } = validate;
-//     return responseObject(res, rCode, rState, null, rMessage);
-//   }
+	const { lastname, firstname, email, password } = req.body;
+	const reqData:UserType = { lastname, firstname, email, password };
 
-  const { lastname, firstname, email, password } = req.body;
+	//Joi validation
+   const validate = await User.validatePostData(req,reqData );
+if(!validate){
+    const { rCode, rState, rMessage } = validate;
+    return responseObject(res, rCode, rState, null, rMessage);}
 
-  const reqData:UserType = { lastname, firstname, email, password };
+
+
 
   try {
     const resp:RespType = await createUser(reqData);
