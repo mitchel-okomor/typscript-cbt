@@ -3,7 +3,9 @@ import {Request, Response} from 'express'
 import { createQuestion, updateQuestion, fetchQuestions, fetchQuestion, deleteQuestion } from '../../services/admin/question';
 import { errorObject, responseObject } from '../../helpers/common';
 import {RespType, QuestionType} from '../../helpers/interfaces';
+import db from '../../database/models';
 
+const Question = db.question;
 
 const categoryController :any= {}
 
@@ -40,6 +42,13 @@ categoryController.create = async function (req:Request, res:Response, next:any)
   const { title, categoryId, options }:QuestionType = req.body;
 
   const reqData = { title, categoryId, options };
+
+  
+	//Joi validation
+	const validate = await Question.validatePostData(req,reqData );
+	if(!validate){
+		const { rCode, rState, rMessage } = validate;
+		return responseObject(res, rCode, rState, null, rMessage);}
 
   try {
     const resp:RespType = await createQuestion(reqData);

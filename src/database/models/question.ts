@@ -1,5 +1,9 @@
 'use strict';
 import { Sequelize, DataTypes, Model } from "sequelize";
+import {joiValidate} from '../../helpers/joi';
+import Joi from 'joi';
+import {Request} from 'express';
+import {QuestionType} from "../../helpers/interfaces";
 
 
  module.exports = (sequelize:Sequelize, DataTypes:any) => {
@@ -14,6 +18,18 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 	  question.belongsTo(models.category, { foreignKey: 'categoryId', as: 'category' });
 
     }
+
+	validatePostData = async function (req:Request, data:QuestionType) {
+		const schema = Joi.object({
+		  title: Joi.object().required(),
+		  option1: Joi.object().required(),
+		  option2: Joi.object().required(),
+		  option3: Joi.object().required(),
+		  option4: Joi.object().required(),
+		});
+	
+		return joiValidate(schema, req, true, data);
+	  };
   };
   question.init({
     title: DataTypes.STRING,
