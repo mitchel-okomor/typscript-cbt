@@ -9,7 +9,7 @@ import {
 } from '../../helpers/httpCodes';
 
 
-const Category = db.Categories;
+const Category = db.category;
 
 
 
@@ -59,8 +59,9 @@ const Category = db.Categories;
    */
   export const updateCategory = async (id:string, data:any) => {
 	const { title, description } = data;
+	console.log("Title: "+title, "Des: "+description)
 	try {
-	  const newIdea = await Category.update(
+	  const response = await Category.update(
 		{
 		  title,
 		  description
@@ -74,7 +75,7 @@ const Category = db.Categories;
 	  return responseInfo(
 		HTTP_CREATED,
 		'success',
-		newIdea,
+		response,
 		'Category updated successful'
 	  );
 	} catch (err) {
@@ -107,9 +108,9 @@ const Category = db.Categories;
 
   export const fetchCategories = async () => {
 	try {
-	  const Categories:any = await Category.findAll();
-	
-			return responseInfo(HTTP_OK, 'success', Categories.dataValues, '');
+	  const categories:any = await Category.findAll();
+	  console.log(categories)
+return responseInfo(HTTP_OK, 'success', categories, '');
 
 	} catch (err:any) {
 	  console.log(err);
@@ -120,11 +121,11 @@ const Category = db.Categories;
 
   export const deleteCategory = async (categoryId:string) => {
 	try {
-	  const category:any = await Category.remove({
+	  const category:any = await Category.destroy({
 		where: { id: categoryId }
 	  });
 	
-			return responseInfo(HTTP_OK, 'success', category.dataValues, '');
+			return responseInfo(HTTP_OK, 'success', category.dataValues, 'Category deleted successfully');
 
 	} catch (err:any) {
 	  console.log(err);

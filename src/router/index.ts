@@ -1,8 +1,8 @@
 import express, {Application, Request, Response} from 'express';
 import path from 'path';
 import authRoutes from './auth';
-// import ideasRoutes from './Ideas/idea';
-// import { requireAuth } from '../middleware/passport';
+ import adminRoutes from './admin/';
+import auth from '../middleware/auth';
 
 export default function (app: Application) {
   const homeRoutes = express.Router();
@@ -18,7 +18,7 @@ export default function (app: Application) {
 
 //   // api Routes
  apiRoutes.use('/auth', authRoutes);
-//   apiRoutes.use('/ideas', requireAuth, ideasRoutes);
+ apiRoutes.use('/admin', auth, adminRoutes);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);

@@ -11,7 +11,7 @@ const categoryController :any= {}
 
 
 
-categoryController.getQuestion = async function (req:Request, res:Response, next:any) {
+categoryController.get = async function (req:Request, res:Response, next:any) {
 	const { id }:any = req.params;
 	try {
 	  const response:RespType = await fetchQuestion(id);
@@ -24,7 +24,7 @@ categoryController.getQuestion = async function (req:Request, res:Response, next
 	  }
 	}
   };
-  categoryController.getAllQuestions = async function (req:Request, res:Response, next:any) {
+  categoryController.getAll = async function (req:Request, res:Response, next:any) {
 	try {
 	  const response:RespType = await fetchQuestions();
 	  const { rCode, rState, rData, rMessage } = response;

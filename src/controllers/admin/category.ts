@@ -8,7 +8,7 @@ const categoryController :any= {}
 
 
 
-categoryController.getCategory = async function (req:Request, res:Response, next:any) {
+categoryController.get = async function (req:Request, res:Response, next:any) {
 	const { id }:any = req.params;
 	try {
 	  const response:any = await fetchCategory(id);
@@ -21,10 +21,11 @@ categoryController.getCategory = async function (req:Request, res:Response, next
 	  }
 	}
   };
-  categoryController.getAllCategories = async function (req:Request, res:Response, next:any) {
+  categoryController.getAll = async function (req:Request, res:Response, next:any) {
 	try {
 	  const response:any = await fetchCategories();
 	  const { rCode, rState, rData, rMessage } = response;
+	  console.log(response)
 	  return responseObject(res, rCode, rState, rData, rMessage);
 	} catch (err:any) {
 	  if (err) {
@@ -58,6 +59,7 @@ categoryController.update = async function (req:Request, res:Response, next:any)
   const { title, description } = req.body;
 
   const reqData = { title, description };
+  console.log(reqData)
 
   try {
     const response:any = await updateCategory(id, reqData);
