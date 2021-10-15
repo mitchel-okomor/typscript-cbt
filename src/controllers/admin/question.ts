@@ -44,11 +44,11 @@ categoryController.create = async function (req:Request, res:Response, next:any)
   const reqData = { title, categoryId, options };
 
   
-	//Joi validation
-	const validate = await Question.validatePostData(req,reqData );
-	if(!validate){
-		const { rCode, rState, rMessage } = validate;
-		return responseObject(res, rCode, rState, null, rMessage);}
+	// //Joi validation
+	// const validate = await Question.validatePostData(req,reqData );
+	// if(!validate){
+	// 	const { rCode, rState, rMessage } = validate;
+	// 	return responseObject(res, rCode, rState, null, rMessage);}
 
   try {
     const resp:RespType = await createQuestion(reqData);

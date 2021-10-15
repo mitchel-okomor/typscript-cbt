@@ -11,6 +11,7 @@ import {QuestionType, RespType} from '../../helpers/interfaces';
 
 
 const Question = db.question;
+const Answer = db.answer
 
 
 
@@ -25,16 +26,26 @@ const Question = db.question;
 	const { title, categoryId, options } = data;
   
 	try {
-		const response = await Question.create({
+		const questionResponse = await Question.create({
 			title: title?.trim(),
-			category: categoryId,
+			categoryId: categoryId,
 		  });
-		  const createdCategory = response.dataValues
-	  
+		  const createdQuestions = questionResponse.dataValues
+const optionsWithQuestionId = options.map((item:any)=>{
+	return {...item,questionId:createdQuestions.id}
+})
+
+		  const answerResponse = await Answer.bulkCreate(
+		optionsWithQuestionId
+		  )
+
+		const questionData = {question:questionResponse, options: answerResponse}
+
+	  console.log()
 		  return responseInfo(
 			HTTP_CREATED,
 			'success',
-			createdCategory,
+			questionData,
 			'Category created Successfull! '
 		  );
 	
