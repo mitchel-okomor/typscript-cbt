@@ -119,9 +119,12 @@ const optionsWithQuestionId = options.map((item:any)=>{
 
   export const fetchQuestions = async ():Promise<RespType> => {
 	try {
-	  const Categories:any = await Question.findAll();
-	
-			return responseInfo(HTTP_OK, 'success', Categories.dataValues, '');
+	  const questions:any = await Question.findAll({  include: [{
+		model: Answer,
+		required: true
+	   }]});
+	console.log(questions)
+			return responseInfo(HTTP_OK, 'success', questions, '');
 
 	} catch (err:any) {
 	  console.log(err);

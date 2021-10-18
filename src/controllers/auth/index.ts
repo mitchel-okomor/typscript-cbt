@@ -50,9 +50,6 @@ if(!validate){
     const { rCode, rState, rMessage } = validate;
     return responseObject(res, rCode, rState, null, rMessage);}
 
-
-
-
   try {
     const resp:RespType = await createUser(reqData);
     const { rCode, rState, rData, rMessage } = resp;
