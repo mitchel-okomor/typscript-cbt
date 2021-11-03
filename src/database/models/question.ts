@@ -17,6 +17,13 @@ import {QuestionType} from "../../helpers/interfaces";
       // define association here
 	  question.belongsTo(models.category, { foreignKey: 'categoryId', as: 'category' });
 
+	  question.hasMany(models.answer, {
+        as: 'options',
+        foreignKey: 'questionId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+
     }
 
 	validatePostData = async function (req:Request, data:QuestionType) {

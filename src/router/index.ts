@@ -2,6 +2,7 @@ import express, {Application, Request, Response} from 'express';
 import path from 'path';
 import authRoutes from './auth';
  import adminRoutes from './admin/';
+ import userRoutes from './user'
 import auth from '../middleware/auth';
 
 export default function (app: Application) {
@@ -19,6 +20,8 @@ export default function (app: Application) {
 //   // api Routes
  apiRoutes.use('/auth', authRoutes);
  apiRoutes.use('/admin', auth, adminRoutes);
+ apiRoutes.use('/user', userRoutes);
+
 
   // Set url for API group routes
   app.use('/api', apiRoutes);

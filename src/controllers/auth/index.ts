@@ -3,6 +3,7 @@ import db from '../../database/models';
 import { createUser, loginUser, updateUser, fetchUser } from '../../services/auth';
 import { errorObject, responseObject } from '../../helpers/common';
 import { RespType, UserType, UserUpdateType} from '../../helpers/interfaces';
+import {validateSignUpData, validateLoginData} from '../../helpers/validatePostData';
 
 const User = db.user
 
@@ -12,7 +13,13 @@ const AuthController :any= {}
 // Login Route
 AuthController.login = async function (req:Request, res:Response, next:any) {
   const { email, password } = req.body;
-  
+
+  	//Joi validation
+	  const validate:any = await validateLoginData(req, {email, password} );
+	  console.info(validate)
+   if(validate.rState==='error'){
+	   const { rCode, rState, rMessage } = validate;
+	   return responseObject(res, rCode, rState, null, rMessage);}
   try {
     const loggedInUser:RespType = await loginUser(email, password);
     const { rCode, rState, rData, rMessage } = loggedInUser;
@@ -45,8 +52,9 @@ AuthController.registerUser = async function (req:Request, res:Response, next:an
 	const reqData:UserType = { lastname, firstname, email, password };
 
 	//Joi validation
-   const validate = await User.validatePostData(req,reqData );
-if(!validate){
+   const validate:any = await validateSignUpData(req,reqData );
+   console.info(validate)
+if(validate.rState==='error'){
     const { rCode, rState, rMessage } = validate;
     return responseObject(res, rCode, rState, null, rMessage);}
 

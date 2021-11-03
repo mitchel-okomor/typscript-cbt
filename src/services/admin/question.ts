@@ -7,7 +7,7 @@ import {
   HTTP_OK,
   HTTP_SERVER_ERROR
 } from '../../helpers/httpCodes';
-import {QuestionType, RespType} from '../../helpers/interfaces';
+import {QuestionType, RespType} from "../../helpers/interfaces";
 
 
 const Question = db.question;
@@ -119,9 +119,9 @@ const optionsWithQuestionId = options.map((item:any)=>{
 
   export const fetchQuestions = async ():Promise<RespType> => {
 	try {
-	  const questions:any = await Question.findAll({  include: [{
+	  const questions:any = await Question.findAll({  include:[{
 		model: Answer,
-		required: true
+		as:'options'
 	   }]});
 	console.log(questions)
 			return responseInfo(HTTP_OK, 'success', questions, '');

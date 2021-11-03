@@ -16,6 +16,11 @@ interface UserType{
 	password:string
 	}
 
+interface LoginUserType{
+	email:string,
+	password:string
+}
+
 	interface UserUpdateType{
 		firstname:string,
 		lastname:string,
@@ -27,4 +32,4 @@ interface UserType{
 		options:Array<Options>
 	}
 
-export {RespType, UserType, UserUpdateType, QuestionType}
+export {RespType, UserType, UserUpdateType, QuestionType, LoginUserType}

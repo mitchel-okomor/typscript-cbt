@@ -11,13 +11,14 @@ module.exports =(sequelize:Sequelize, DataTypes:any) => {
      */
     static associate(models:any) {
       // define association here
-	  answer.belongsTo(models.question, { foreignKey: 'questionId', as: 'question' });
+	//  answer.belongsTo(models.question, { foreignKey: 'questionId', as: 'question' });
 
     }
   };
 answer.init({
-    title: DataTypes.STRING,
-	isCorrect:{type:DataTypes.BOOLEAN, defaultValue:false}
+    title:{type: DataTypes.STRING, allowNull:false},
+	isCorrect:{type:DataTypes.BOOLEAN, defaultValue:false},
+	questionId:{type:DataTypes.INTEGER, allowNull:false}
 }, {
     sequelize,
     modelName: 'answer',
