@@ -38,8 +38,8 @@ const User = db.user;
 			const loggedInUser = user.dataValues;
   
 			const { id, name, email, role, gender, phone } = loggedInUser;
-			const access_token = createAccessToken(loggedInUser);
-			const refresh_token = createRefreshToken(loggedInUser);
+			const access_token = createAccessToken({ id, name, email, role, gender, phone });
+			const refresh_token = createRefreshToken({ id, name, email, role, gender, phone });
 		
 			const newUser = {
 			  user: {
@@ -169,17 +169,23 @@ const User = db.user;
 			const loggedInUser = user.dataValues;
   
 			const { id, name, email, role, gender, phone } = loggedInUser;
+			const access_token = createAccessToken({ id, name, email, role, gender, phone });
+			const refresh_token = createRefreshToken({ id, name, email, role, gender, phone });
 		
-		
-			const userData ={ 
+			const userData = {
+			  user: {
 				id,
 				name,
 				email,
 				role,
 				gender,
 				phone
-			 
+			  },
+			  access_token,
+			  refresh_token
 			};
+		
+
 			return responseInfo(HTTP_OK, 'success', userData, '');
 
 	} catch (err:any) {
