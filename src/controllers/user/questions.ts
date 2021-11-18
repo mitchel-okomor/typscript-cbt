@@ -7,11 +7,11 @@ import db from '../../database/models';
 
 const Question = db.question;
 
-const categoryController :any= {}
+const QuestionController :any= {}
 
 
 
-categoryController.get = async function (req:Request, res:Response, next:any) {
+QuestionController.get = async function (req:Request, res:Response, next:any) {
 	const { id }:any = req.params;
 	try {
 	  const response:RespType = await fetchQuestion(id);
@@ -24,7 +24,7 @@ categoryController.get = async function (req:Request, res:Response, next:any) {
 	  }
 	}
   };
-  categoryController.getAll = async function (req:Request, res:Response, next:any) {
+  QuestionController.getAll = async function (req:Request, res:Response, next:any) {
 	try {
 	  const response:RespType = await fetchQuestions();
 	  const { rCode, rState, rData, rMessage } = response;
@@ -39,4 +39,4 @@ categoryController.get = async function (req:Request, res:Response, next:any) {
 
 
 
-export default categoryController;
+export default QuestionController;

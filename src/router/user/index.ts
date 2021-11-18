@@ -1,6 +1,7 @@
 import express from 'express';
 import categoryController from '../../controllers/user/category';
 import questionController from '../../controllers/user/questions';
+import scoresController from '../../controllers/user/scores';
 import  auth from '../../middleware/auth';
 
 const router = express.Router();
@@ -14,6 +15,10 @@ router.get('/category/:id',  categoryController.get);
 router.get('/question/:id', questionController.get);
 router.get('/questions',  questionController.getAll);
 
+//score
+router.get('/scoreboard', scoresController.getAll);
+router.get('/score', scoresController.getUserScores);
+router.post('/score',  scoresController.save);
 
 
 export default router;

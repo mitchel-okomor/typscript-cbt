@@ -31,5 +31,9 @@ interface LoginUserType{
 		categoryId: String | number,
 		options:Array<Options>
 	}
+	interface ScoreType{
+		score:number,
+		userId: String | number,
+	}
 
-export {RespType, UserType, UserUpdateType, QuestionType, LoginUserType}
+export {RespType, UserType, UserUpdateType, QuestionType, LoginUserType, ScoreType}
