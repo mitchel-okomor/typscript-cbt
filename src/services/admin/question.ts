@@ -123,7 +123,6 @@ const optionsWithQuestionId = options.map((item:any)=>{
 		model: Answer,
 		as:'options'
 	   }]});
-	console.log(questions)
 			return responseInfo(HTTP_OK, 'success', questions, '');
 
 	} catch (err:any) {

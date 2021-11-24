@@ -14,7 +14,9 @@ try {
 	const user = await Users.findOne({
 	  where: { id: decoded.id }
 	});
-	req.user = user.dataValues;
+
+	 const {id, firstname, lastname, email}= user.dataValues;
+	 req.user ={id,firstname, lastname, email}
 	return next();
 } catch (error) {
 	console.error("jwt: "+error)

@@ -22,8 +22,7 @@ const User = db.user
    * @param {object} data
    * @returns User object
    */
-  export const createScore = async (data:ScoreType, userId:string|undefined):Promise<RespType | any> => {
-	const { score } = data;
+  export const createScore = async (score:number, userId:string|undefined):Promise<RespType | any> => {
 
 	try {
 		const scoreResponse = await Score.create({

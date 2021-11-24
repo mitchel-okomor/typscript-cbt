@@ -18,7 +18,7 @@ router.get('/questions',  questionController.getAll);
 //score
 router.get('/scoreboard', scoresController.getAll);
 router.get('/score', scoresController.getUserScores);
-router.post('/score',  scoresController.save);
+router.post('/score', auth, scoresController.save);
 
 
 export default router;
