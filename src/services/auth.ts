@@ -37,15 +37,18 @@ const User = db.user;
 		  }else{
 			const loggedInUser = user.dataValues;
   
-			const { id, name, email, role, gender, phone } = loggedInUser;
-			const access_token = createAccessToken({ id, name, email, role, gender, phone });
-			const refresh_token = createRefreshToken({ id, name, email, role, gender, phone });
+			const { id, firstname,
+				lastname, email, role, gender, phone } = loggedInUser;
+			const access_token = createAccessToken({ id, 	firstname,
+				lastname, email, role, gender, phone });
+			const refresh_token = createRefreshToken({ id, 	firstname,
+				lastname, email, role, gender, phone });
 		
 			const newUser = {
 			  user: {
 				id,
-				name,
-				email,
+				firstname,
+				lastname,				email,
 				role,
 				gender,
 				phone
@@ -168,14 +171,15 @@ const User = db.user;
 	  });
 			const loggedInUser = user.dataValues;
   
-			const { id, name, email, role, gender, phone } = loggedInUser;
-			const access_token = createAccessToken({ id, name, email, role, gender, phone });
-			const refresh_token = createRefreshToken({ id, name, email, role, gender, phone });
+			const { id, firstname, lastname, email, role, gender, phone } = loggedInUser;
+			const access_token = createAccessToken({ id, firstname, lastname, email, role, gender, phone });
+			const refresh_token = createRefreshToken({ id, firstname, lastname, email, role, gender, phone });
 		
 			const userData = {
 			  user: {
 				id,
-				name,
+				firstname,
+				lastname,
 				email,
 				role,
 				gender,

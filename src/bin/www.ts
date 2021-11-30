@@ -5,6 +5,8 @@
 import debug from 'debug';
 import http from 'http';
 import app from '../index';
+import socketApi from '../socket/socketAPIs';
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -78,3 +80,13 @@ const onListening = () => {
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Socket.io
+ */
+ var io = socketApi.io;
+ io.attach(server, {
+	cors: {
+		origin:  process.env.TEST_CLIENT,
+	}
+});

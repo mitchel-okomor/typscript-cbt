@@ -3,7 +3,7 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 
 
  module.exports = (sequelize:Sequelize, DataTypes:any) => {
-  class score extends Model {
+  class Game extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,20 +11,20 @@ import { Sequelize, DataTypes, Model } from "sequelize";
      */
     static associate(models:any) {
       // define association here
-	  score.belongsTo(models.user, { foreignKey: 'userId', as: 'user' });
-	  score.belongsTo(models.game, { foreignKey: 'gameId', as: 'game' });
+	  Game.belongsToMany(models.user, { through: 'userGame'});
+
+	  models.user.belongsToMany(models.game, { through: 'userGame'});
 
     }
 
-
   };
-  score.init({
-    score: {type:DataTypes.INTEGER, allowNull:false},
-	userId:{ type:DataTypes.INTEGER, allowNull:false},
+  Game.init({
+    turn: DataTypes.STRING,
+	winner: DataTypes.STRING
 }, {
     sequelize,
-    modelName: 'score',
+    modelName: 'game',
   });
-  return score;
+  return Game;
 };
 

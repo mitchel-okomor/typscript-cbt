@@ -50,7 +50,7 @@ const syncModels = async (fresh = false) => {
     if (fresh) {
       //sync tables
       await sequelize.sync({ alter: true });
-      console.log('All models were synchronized successfully.');
+      console.log('All models were synchronized and altered successfully.');
       //navigate to root and seed tables
       // const root = path.join(__dirname, '../../');
       // exec(
@@ -64,7 +64,7 @@ const syncModels = async (fresh = false) => {
       // );
     } else {
       await sequelize.sync({ alter: false });
-      console.log('All models were synchronized successfully.');
+      console.log('All models were synchronized but not altered successfully.');
     }
   } catch (error) {
     console.error('Database sync failed:', error);

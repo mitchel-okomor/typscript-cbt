@@ -9,7 +9,7 @@
 
  const app = express();
  const corsOptions = {
-   //origin: process.env.TEST_CLIENT,
+   origin: process.env.TEST_CLIENT,
  };
  
  app.use(logger('dev')); // Enable Logging
