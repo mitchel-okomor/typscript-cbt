@@ -38,9 +38,7 @@ export const responseObject = (response:any, code:number, state:string, data:any
 };
 
 export const camelCase2Words = (s:string) => {
-  var wordsArr = s.split(/([A-Z][a-z]+)/).filter(function (e:any) {
-    return e;
-  });
+  var wordsArr = s.split(/([A-Z][a-z]+)/).filter((e:any) => e);
   var words = wordsArr.join(' ');
   return capitalize(words);
 };

@@ -1,6 +1,6 @@
 import {Request, Response} from 'express'
 
-import { createQuestion, updateQuestion, fetchQuestions, fetchQuestion, deleteQuestion } from '../../services/admin/question';
+import { createQuestionAnswers, startGame, fetchGame, fetchAllGames, acceptChallenge } from '../../services/game/index';
 import { errorObject, responseObject } from '../../helpers/common';
 import {RespType, QuestionType, UserType} from '../../helpers/interfaces';
 import db from '../../database/models';
