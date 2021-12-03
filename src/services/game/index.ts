@@ -10,7 +10,7 @@ import {
 import { RespType} from "../../helpers/interfaces";
 
 
-const {gameQuestion, game} = db;
+const {gameQuestion, game, answer, question} = db;
 
 
 
@@ -21,29 +21,20 @@ const {gameQuestion, game} = db;
    * @param {object} data
    * @returns User object
    */
-  export const createQuestionAnswers = async (questions, gameId, userId):Promise<RespType | any> => {
+  export const createQuestionAnswers = async (questions:any, gameId:string, userId:string):Promise<RespType | any> => {
   
 	try {
-		const questionResponse = await gameQuestion.create({
-			title: title?.trim(),
-			categoryId: categoryId,
-		  });
+		const questionResponse = await gameQuestion.bulkCreate(questions.map((question:any)=>{
+			return { questionId: question.id, gameId, userId}
+		}));
 		  const createdQuestions = questionResponse.dataValues
-const optionsWithQuestionId = options.map((item:any)=>{
-	return {...item,questionId:createdQuestions.id}
-})
 
-		  const answerResponse = await Answer.bulkCreate(
-		optionsWithQuestionId
-		  )
-
-		const questionData = {question:questionResponse, options: answerResponse}
 
 	  console.log()
 		  return responseInfo(
 			HTTP_CREATED,
 			'success',
-			questionData,
+			questionResponse,
 			'Category created Successfull! '
 		  );
 	
@@ -100,10 +91,10 @@ const optionsWithQuestionId = options.map((item:any)=>{
 	}
   };
   
-  export const fetchGame = async (categoryId:string):Promise<RespType>  => {
+  export const fetchGame = async (gameId:string):Promise<RespType>  => {
 	try {
-	  const category:any = await GameQuestion.findOne({
-		where: { id: categoryId }
+	  const category:any = await game.findOne({
+		where: { id: gameId }
 	  });
 	
 			return responseInfo(HTTP_OK, 'success', category.dataValues, '');
@@ -115,12 +106,21 @@ const optionsWithQuestionId = options.map((item:any)=>{
 	}
   };
 
-  export const fetchAllGames = async ():Promise<RespType> => {
+  export const fetchAllGames = async (userId:string):Promise<RespType> => {
 	try {
-	  const questions:any = await GameQuestion.findAll({  include:[{
-		model: Answer,
+	  const questions:any = await game.findAll(
+		{
+			where: { id: userId }
+		  }, 
+		{  include:[{
+		model: question,
+		as:'question'
+	   },
+	   {
+		model: answer,
 		as:'options'
-	   }]});
+	   }
+	]});
 			return responseInfo(HTTP_OK, 'success', questions, '');
 
 	} catch (err:any) {
@@ -130,13 +130,22 @@ const optionsWithQuestionId = options.map((item:any)=>{
 	}
   };
 
-  export const startGame = async (questionId:string):Promise<RespType> => {
+  export const startGame = async (userId:string, oponentId: string):Promise<RespType> => {
 	try {
-	  const question:any = await GameQuestion.remove({
-		where: { id: questionId }
+	  const gameInfo:any = await game.create({
+		turn: userId
 	  });
-	
-			return responseInfo(HTTP_OK, 'success', question.dataValues, '');
+
+	  const gameUsers:any = await game.bulkCreate([{
+	gameId: gameInfo.id,
+	userId: userId
+	  }, {
+		gameId: gameInfo.dataValues.id,
+		userId: oponentId
+		  }]);
+
+const responseData = {...gameInfo.dataValues, ...gameUsers}
+	return responseInfo(HTTP_OK, 'success', responseData, '');
 
 	} catch (err:any) {
 	  console.log(err);
