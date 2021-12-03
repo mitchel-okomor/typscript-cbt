@@ -19,12 +19,33 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 
   };
   Game.init({
-    turn: DataTypes.STRING,
-	winner: DataTypes.STRING
-}, {
+    turn: DataTypes.INTEGER,
+	winner: DataTypes.INTEGER,
+    status: {
+        type: DataTypes.ENUM,
+        values: [
+          'pending',
+          'started',
+          'ended',
+        ],
+        defaultValue: 'pending',
+        allowNull: false,
+      },
+	  inviteStatus: {
+        type: DataTypes.ENUM,
+        values: [
+          'pending',
+          'accepted',
+          'declined',
+        ],
+        defaultValue: 'pending',
+        allowNull: false,
+      },
+	}, {
     sequelize,
     modelName: 'game',
   });
   return Game;
 };
+
 

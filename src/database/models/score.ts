@@ -21,6 +21,7 @@ import { Sequelize, DataTypes, Model } from "sequelize";
   score.init({
     score: {type:DataTypes.INTEGER, allowNull:false},
 	userId:{ type:DataTypes.INTEGER, allowNull:false},
+	gameId:{ type:DataTypes.INTEGER, allowNull:false},
 }, {
     sequelize,
     modelName: 'score',
