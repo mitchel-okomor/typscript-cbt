@@ -11,9 +11,6 @@ import { RespType} from "../../helpers/interfaces";
 
 
 const {gameQuestion, game, answer, question} = db;
-
-
-
   
   /**
    * Creates a user in the database and returns the user's basic detials.
@@ -34,7 +31,7 @@ const {gameQuestion, game, answer, question} = db;
 		  return responseInfo(
 			HTTP_CREATED,
 			'success',
-			questionResponse,
+			createdQuestions,
 			'Category created Successfull! '
 		  );
 	

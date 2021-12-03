@@ -2,9 +2,21 @@ import express from 'express';
 import categoryController from '../../controllers/user/category';
 import questionController from '../../controllers/user/questions';
 import scoresController from '../../controllers/user/scores';
+import userController from '../../controllers/user/user';
 import  auth from '../../middleware/auth';
 
 const router = express.Router();
+
+
+
+//random user
+router.get('/user/random', userController.getRandom);
+//get user by email
+router.get('/user/:email',  categoryController.getByEmail);
+//get male user
+router.get('/user/male',  categoryController.getMale);
+//get female user
+router.get('/user/female',  categoryController.getFemale);
 
 //Category
 router.get('/categories', categoryController.getAll);

@@ -25,8 +25,10 @@ gameController.get = async function (req:Request, res:Response, next:any) {
 	}
   };
   gameController.getAll = async function (req:Request, res:Response, next:any) {
+	const { user}:any= req;
+
 	try {
-	  const response:RespType = await fetchAllGames();
+	  const response:RespType = await fetchAllGames(user.id);
 	  const { rCode, rState, rData, rMessage } = response;
 	  return responseObject(res, rCode, rState, rData, rMessage);
 	} catch (err:any) {
@@ -38,12 +40,12 @@ gameController.get = async function (req:Request, res:Response, next:any) {
   };
 
 gameController.start = async function (req:Request, res:Response, next:any) {
-
+const opponetId = req.params.id;
   const { user}:any= req;
 
 
   try {
-    const resp:RespType = await startGame(user.userId);
+    const resp:RespType = await startGame(user.userId, opponetId);
     const { rCode, rState, rData, rMessage } = resp;
 
     return responseObject(res, rCode, rState, rData, rMessage);
