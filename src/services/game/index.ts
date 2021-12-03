@@ -7,11 +7,10 @@ import {
   HTTP_OK,
   HTTP_SERVER_ERROR
 } from '../../helpers/httpCodes';
-import {QuestionType, RespType} from "../../helpers/interfaces";
+import { RespType} from "../../helpers/interfaces";
 
 
-const Question = db.question;
-const Answer = db.answer
+const {gameQuestion, game} = db;
 
 
 
@@ -25,7 +24,7 @@ const Answer = db.answer
   export const createQuestionAnswers = async (questions, gameId, userId):Promise<RespType | any> => {
   
 	try {
-		const questionResponse = await Question.create({
+		const questionResponse = await gameQuestion.create({
 			title: title?.trim(),
 			categoryId: categoryId,
 		  });
@@ -68,25 +67,25 @@ const optionsWithQuestionId = options.map((item:any)=>{
    * @param {Object} data
    * @returns
    */
-  export const acceptChallenge = async (id:string, data:any):Promise<RespType | any>  => {
-	const { title, categoryId, options } = data;
+  export const acceptChallenge = async (gameId:string, userId:string):Promise<RespType | any>  => {
 	try {
-	  const newIdea = await Question.update(
+	  const newData = await game.update(
 		{
-		  title,
-		  categoryId
+			inviteStatus: 'accepted',
+		  status:'started',
+
 		},
 		{
 		  where: {
-			id: id
+			gameId: gameId
 		  }
 		}
 	  );
 	  return responseInfo(
 		HTTP_CREATED,
 		'success',
-		newIdea,
-		'Category updated successful'
+		newData,
+		'Game status chnaged'
 	  );
 	} catch (err) {
 	  if (err) {
@@ -103,7 +102,7 @@ const optionsWithQuestionId = options.map((item:any)=>{
   
   export const fetchGame = async (categoryId:string):Promise<RespType>  => {
 	try {
-	  const category:any = await Question.findOne({
+	  const category:any = await GameQuestion.findOne({
 		where: { id: categoryId }
 	  });
 	
@@ -118,7 +117,7 @@ const optionsWithQuestionId = options.map((item:any)=>{
 
   export const fetchAllGames = async ():Promise<RespType> => {
 	try {
-	  const questions:any = await Question.findAll({  include:[{
+	  const questions:any = await GameQuestion.findAll({  include:[{
 		model: Answer,
 		as:'options'
 	   }]});
@@ -133,7 +132,7 @@ const optionsWithQuestionId = options.map((item:any)=>{
 
   export const startGame = async (questionId:string):Promise<RespType> => {
 	try {
-	  const question:any = await Question.remove({
+	  const question:any = await GameQuestion.remove({
 		where: { id: questionId }
 	  });
 	

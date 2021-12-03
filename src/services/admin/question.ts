@@ -72,7 +72,7 @@ const optionsWithQuestionId = options.map((item:any)=>{
   export const updateQuestion = async (id:string, data:any):Promise<RespType | any>  => {
 	const { title, categoryId, options } = data;
 	try {
-	  const newIdea = await Question.update(
+	  const newQuestion = await Question.update(
 		{
 		  title,
 		  categoryId
@@ -86,7 +86,7 @@ const optionsWithQuestionId = options.map((item:any)=>{
 	  return responseInfo(
 		HTTP_CREATED,
 		'success',
-		newIdea,
+		newQuestion,
 		'Category updated successful'
 	  );
 	} catch (err) {

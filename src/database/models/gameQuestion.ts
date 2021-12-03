@@ -27,7 +27,7 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 	gameId: {type: DataTypes.INTEGER, allowNull: false},
    }, {
     sequelize,
-    modelName: 'GameQuestion',
+    modelName: 'gameQuestion',
   });
   return GameQuestion;
 };
