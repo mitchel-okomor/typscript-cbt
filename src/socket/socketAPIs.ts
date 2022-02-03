@@ -5,9 +5,11 @@ const socketApi:any = {};
 socketApi.io = io;
 
 io.on('connection', function(socket:any){
-    console.log('A user connected');
+    console.log(socket.id,'A user connected');
 });
-
+io.on('message', function(socket:any){
+    console.log(socket, 'A user connected');
+});
 socketApi.sendNotification = function() {
     io.sockets.emit('hello', {msg: 'Hello World!'});
 }

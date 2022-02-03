@@ -12,11 +12,11 @@ const router = express.Router();
 //random user
 router.get('/user/random', userController.getRandom);
 //get user by email
-router.get('/user/:email',  categoryController.getByEmail);
-//get male user
-router.get('/user/male',  categoryController.getMale);
-//get female user
-router.get('/user/female',  categoryController.getFemale);
+// router.get('/user/:email',  userController.getByEmail);
+// //get male user
+// router.get('/user/male',  userController.getMale);
+// //get female user
+// router.get('/user/female',  userController.getFemale);
 
 //Category
 router.get('/categories', categoryController.getAll);

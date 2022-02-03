@@ -6,18 +6,18 @@ socketApi.recieveMessage = ()=>{
 }
 
 //Broadcast message
-socketApi.sendMessage = (user1, user2)=>{
+socketApi.sendMessage = (user, room)=>{
 	
 }
 
 //Join chat
 
-socketApi.JoinChat = (user1, user2)=>{
+socketApi.JoinChat = (user, room)=>{
 
 }
 
 //continue chat
 
-socketApi.continueChat = (user1, user2)=>{
+socketApi.continueChat = (user, room)=>{
 
 }

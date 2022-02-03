@@ -46,7 +46,7 @@ const User = db.user;
 	}
   };
 
-  export const fetchRandomUser = async (userEmail: string):Promise<RespType> => {
+  export const fetchRandomUser = async ():Promise<RespType> => {
 	try {
 	  const users = await User.findOne(
 	);
