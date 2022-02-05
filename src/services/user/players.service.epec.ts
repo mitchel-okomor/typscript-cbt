@@ -1,8 +1,7 @@
 // @ts-nocheck
-import Database from './Database'
 
 import { UserRepository } from './User.repository'
-import { UserService } from './User.service'
+import { UserService } from './User.service.ts'
 
 describe('User service', () => {
   let userService = new UserService(new UserRepository())
