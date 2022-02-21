@@ -1,42 +1,38 @@
 // @ts-nocheck
 import  UserRepository  from '../../repository/userRepoMock';
+import UserService from './User.service.ts';
 import {jest} from '@jest/globals'; 
 
 const mock = jest.fn();
 
 
 describe('User Service', () => {
-  let userRepo = new UserRepository(new UserRepository());
-console.log( userRepo.getAll())
+  let userRepo = new UserService(new UserRepository());
+
+
  it('Should have access to the user repository', () => {
-	 
     expect(userRepo).toBeDefined()
   })
 
-  it('should call the save method on the userRepository', async (done) => {
-    const spy = jest.spyOn(userRepo.save, 'save')
-    expect(spy).toHaveBeenCalled()
-    done()
+  it('Should return an array when get all users function is called', async() => {
+	  try {
+		  const users = await userRepo.getAllUsers();
+		expect(typeof users).toBe("object")
+	  } catch (error) {
+		  console.log(error)
+	  }
   })
 
-//   it('Should return a created user', async (done) => {
-//     const createdUser = await userService.createUser({ username: 'John Doe' })
-//     const createdUser2 = await userService.createUser({ username: 'Doe John' })
+  it('should call the save method on the userRepository', async () => {
+try {
+	const user = await userRepo.saveUser( {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"});
+		expect(spy).toHaveBeenCalled();
 
-//     expect(createdUser).toEqual({
-//       id: 1,
-//       username: 'John Doe',
-//     })
+	    expect(user).toEqual( {firstName:'john', lastName:'doe', email:'john@doe', password:'ninwdjpwejvodce'})
+} catch (error) {
+	console.log(error)	
+}
+  })
 
-//     expect(createdUser2).toEqual({
-//       id: 2,
-//       username: 'Doe John',
-//     })
 
-//     done()
-//   })
-
-//   afterEach(() => {
-//     Database.clear()
-//   })
 })

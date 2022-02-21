@@ -11,11 +11,15 @@ export default class UserRepoMock  {
 
 	 async getAll(): Promise<userType[]> {
 		
-			return [];
+			return [
+				{firstName: 'jonh',
+				lastName:'doe',
+			email:'john@doe',
+		password:'password'}
+			];
 		}
 	
 	async save(t: userType): Promise<userType> {
-		
 		try {
 			return {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"};
 		} catch (error) {

@@ -2,8 +2,6 @@ import bcrypt from 'bcrypt-nodejs';
 import {  responseInfo } from '../../helpers/common';
 import db from '../../database/models';
 import {
-  HTTP_BAD_REQUEST,
-  HTTP_CREATED,
   HTTP_OK,
   HTTP_SERVER_ERROR
 } from '../../helpers/httpCodes';

@@ -4,6 +4,7 @@ import {Request, Response} from 'express'
 const Users = db.user
 
 export default  async (req:Request, res:Response, next:Function) => {
+
   const token = req.headers.authorization;
   if (!token) return res.status(401).json({ err: "Invalid Authentication" });
 try {
