@@ -13,7 +13,9 @@ interface UserType{
 	firstname:string,
 	lastname:string,
 	email:string,
-	password:string
+	password?:string,
+	id?:string
+
 	}
 
 interface LoginUserType{

@@ -11,34 +11,16 @@ constructor(private readonly repo:UserRepository){
 	this.repo = repo;
 }
 
-fetchUser = async (userEmail: string):Promise<any> => {
+async fetchUser(userEmail: string):Promise<UserType|void>  {
 	try {
-	  const user = await this.repo.fetchUserByEmail(userEmail);
-	  const userData = user.dataValues;
-  
-	  const { id, firstname, lastname, email, gender, phone } = userData;
-
-  
-	  const selectedData = {
-		user: {
-		  id,
-		  firstname,
-		  lastname,
-		  email,
-		  gender,
-		  phone
-		},
-	  };
-  
-
- return responseInfo(HTTP_OK, 'success', selectedData, '');
-
-	} catch (err:any) {
-	  console.log(err);
-	  // eslint-disable-next-line no-undef
-	  return responseInfo(HTTP_SERVER_ERROR, 'error', null, err.message);
+		const user = await this.repo.fetchUserByEmail(userEmail);
+		  
+		  return user;
+	} catch (error) {
+		console.log(error)
 	}
-  };
+	}
+  
 
 async getAllUsers(){
 	return await this.repo.getAll();

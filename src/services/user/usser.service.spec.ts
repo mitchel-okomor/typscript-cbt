@@ -14,25 +14,23 @@ describe('User Service', () => {
     expect(userRepo).toBeDefined()
   })
 
-  it('Should return an array when get all users function is called', async() => {
-	  try {
-		  const users = await userRepo.getAllUsers();
-		expect(typeof users).toBe("object")
-	  } catch (error) {
-		  console.log(error)
-	  }
-  })
 
   it('should call the save method on the userRepository', async () => {
-try {
-	const user = await userRepo.saveUser( {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"});
-		expect(spy).toHaveBeenCalled();
+		const user = await userRepo.saveUser( {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"});
+	
+			expect(user).toEqual( {firstName:'john', lastName:'doe', email:'john@doe', password:'ninwdjpwejvodce', id:'1'})
 
-	    expect(user).toEqual( {firstName:'john', lastName:'doe', email:'john@doe', password:'ninwdjpwejvodce'})
-} catch (error) {
-	console.log(error)	
-}
+	  })
+
+  it('Should return an array when get all users function is called', async() => {
+		  const users = await userRepo.getAllUsers();
+		expect(users).toEqual([{firstName:'john', lastName:'doe', email:'john@doe', password:'ninwdjpwejvodce', id:'1'}]);
   })
+
+  it('Should return a single user with and id', async() => {
+	const user = await userRepo.fetchUser('john@doe');
+  expect(user).toEqual({firstName:'john', lastName:'doe', email:'john@doe', password:'ninwdjpwejvodce', id:'1'});
+})
 
 
 })

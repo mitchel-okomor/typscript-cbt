@@ -1,4 +1,5 @@
 type userType ={
+	id?:string,
 	firstName:string,
 	lastName: string,
 	email: string,
@@ -8,26 +9,21 @@ type userType ={
 
 
 export default class UserRepoMock  {
+	protected users:userType[] = [];
 
-	 async getAll(): Promise<userType[]> {
-		
-			return [
-				{firstName: 'jonh',
-				lastName:'doe',
-			email:'john@doe',
-		password:'password'}
-			];
+	 async getAll(): Promise<userType[] | void> {
+			return this.users;
 		}
 	
-	async save(t: userType): Promise<userType> {
+	async save(userData: userType): Promise<userType | void> {
 		try {
-			return {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"};
+			userData.id="1";
+			this.users.push(userData)
+			return this.users.find(user => user.id === userData.id);
 		} catch (error) {
 			console.log(error)
 		}
-	
-		return {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"};
-	}
+		}
 	
 	async delete(t: string): Promise<Boolean> {
 			
@@ -40,16 +36,9 @@ export default class UserRepoMock  {
 		return true;
 	}
 	
-	async getById(id: string): Promise<userType> {
-			
-		try {
-			return {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"};
-		} catch (error) {
-			console.log(error)
-		}
-	
-		return {firstName:'john', lastName:'doe', email:'john@doe', password:"ninwdjpwejvodce"};
-	}
-	
+	async fetchUserByEmail(email: string): Promise<userType|void> {
+			return this.users.find(user => user.email === email);
 
 	}
+
+}
